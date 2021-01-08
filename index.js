@@ -92,6 +92,43 @@ app.post("/tracks", (req, res) => {
   );
 });
 
+// UPDATE ALBUM BY ID
+app.put("/albums/:id", (req, res) => {
+  const idAlbum = req.params.id;
+  const newAlbum = req.body;
+
+  connection.query(
+    "UPDATE albums SET ? WHERE id = ?",
+    [newAlbum, idAlbum],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error updating an album");
+      } else {
+        res.status(200).send("Album updated successfully 🎉");
+      }
+    }
+  );
+});
+
+// DELETE ALBUM BY ID (not working)
+app.delete("/albums/:id", (req, res) => {
+  const idAlbum = req.params.id;
+
+  connection.query(
+    "DELETE FROM albums WHERE id = ?",
+    [idAlbum],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("😱 Error deleting an album");
+      } else {
+        res.status(200).send("🎉 Album deleted!");
+      }
+    }
+  );
+});
+
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
