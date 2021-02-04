@@ -1,6 +1,8 @@
 const express = require("express");
 const connection = require("./config");
 
+const cors = require("cors");
+
 const port = 4000;
 const app = express();
 
@@ -14,6 +16,7 @@ connection.connect(function (err) {
 });
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   console.log(req);
