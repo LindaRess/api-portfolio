@@ -20,4 +20,5 @@ CREATE TABLE IF NOT EXISTS tracks
   CONSTRAINT fk_album
     FOREIGN KEY (id_album) 
         REFERENCES albums(id)
+        /* ON DELETE CASCADE */
 );

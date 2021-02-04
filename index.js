@@ -1,7 +1,7 @@
 const express = require("express");
 const connection = require("./config");
 
-const port = 3000;
+const port = 4000;
 const app = express();
 
 connection.connect(function (err) {
@@ -16,7 +16,7 @@ connection.connect(function (err) {
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log(request);
+  console.log(req);
   res.send("Welcome to my favorite albums list");
 });
 
