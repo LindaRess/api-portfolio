@@ -1,24 +1,23 @@
-DROP DATABASE IF EXISTS musiclovers;   
-CREATE DATABASE IF NOT EXISTS musiclovers;   
-USE musiclovers;
+DROP DATABASE IF EXISTS portfolio;   
+CREATE DATABASE IF NOT EXISTS portfolio;   
+USE portfolio;
 
-CREATE TABLE IF NOT EXISTS albums
+CREATE TABLE IF NOT EXISTS techno
 (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) UNIQUE NOT NULL,
-  genre VARCHAR(255) NOT NULL,
-  picture VARCHAR(255) NOT NULL,
-  artist VARCHAR(255) NOT NULL
+  title VARCHAR(255) UNIQUE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tracks
+CREATE TABLE IF NOT EXISTS project
 (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(128) UNIQUE NOT NULL,
-  youtube_url VARCHAR(255) NOT NULL,
-  id_album INTEGER NOT NULL,
-  CONSTRAINT fk_album
-    FOREIGN KEY (id_album) 
-        REFERENCES albums(id)
-        /* ON DELETE CASCADE */
+  year_project INTEGER NOT NULL,
+  description_project VARCHAR(600) NOT NULL,
+  project_url VARCHAR(255) NOT NULL,
+  id_techno INTEGER NOT NULL,
+  CONSTRAINT fk_techno
+    FOREIGN KEY (id_techno) 
+        REFERENCES techno(id)
+        ON DELETE CASCADE
 );

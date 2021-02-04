@@ -17,12 +17,12 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   console.log(req);
-  res.send("Welcome to my favorite albums list");
+  res.send("Welcome to my portfolio");
 });
 
-// GET ALL ALBUMS
-app.get("/albums", (request, response) => {
-  connection.query("SELECT * from albums", (err, results) => {
+// GET ALL PROJECTS
+app.get("/projects", (request, response) => {
+  connection.query("SELECT * from project", (err, results) => {
     if (err) {
       response.status(500).send("Error retrieving albums");
     } else {
@@ -31,26 +31,26 @@ app.get("/albums", (request, response) => {
   });
 });
 
-// GET ALL TRACKS
-app.get("/tracks", (request, response) => {
-  connection.query("SELECT * from tracks", (err, results) => {
+// GET ALL TECHNOS
+app.get("/technos", (request, response) => {
+  connection.query("SELECT * from techno", (err, results) => {
     if (err) {
-      response.status(500).send("Error retrieving albums");
+      response.status(500).send("Error retrieving technos");
     } else {
       response.status(200).json(results);
     }
   });
 });
 
-// GET ALBUMS BY ID
-app.get("/albums/:id", (req, res) => {
+// GET PROJECTS BY ID
+app.get("/projects/:id", (req, res) => {
   connection.query(
-    "SELECT * from albums WHERE id=?",
+    "SELECT * from project WHERE id=?",
     [req.params.id],
     (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error retrieving albums");
+        res.status(500).send("Error retrieving projects");
       } else {
         res.status(200).json(results);
       }
@@ -58,60 +58,85 @@ app.get("/albums/:id", (req, res) => {
   );
 });
 
-// CREATE ALBUM(S)
-app.post("/albums", (req, res) => {
-  const { title, genre, picture, artist } = req.body;
+// CREATE PROJECT(S)
+app.post("/projects", (req, res) => {
+  const {
+    title,
+    year_project,
+    description_project,
+    project_url,
+    id_techno,
+  } = req.body;
   connection.query(
-    "INSERT INTO albums(title, genre, picture, artist) VALUES(?, ?, ?, ?)",
-    [title, genre, picture, artist],
+    "INSERT INTO project(title, year_project, description_project, project_url, id_techno) VALUES(?, ?, ?, ?, ?)",
+    [title, year_project, description_project, project_url, id_techno],
     (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error saving an album");
+        res.status(500).send("Error saving a project");
       } else {
-        res.status(200).send("Album(s) successfully saved");
+        res.status(200).send("Project(s) successfully saved");
       }
     }
   );
 });
 
-// CREATE TRACK(S)
-app.post("/tracks", (req, res) => {
-  const { title, youtube_url, id_album } = req.body;
+// CREATE TECHNO(S)
+app.post("/technos", (req, res) => {
+  const { title } = req.body;
   connection.query(
-    "INSERT INTO tracks(title, youtube_url, id_album) VALUES(?, ?, ?)",
-    [title, youtube_url, id_album],
+    "INSERT INTO techno(title) VALUES(?)",
+    [title],
     (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error saving a track");
+        res.status(500).send("Error saving a techno");
       } else {
-        res.status(200).send("Track(s) successfully saved");
+        res.status(200).send("Techno(s) successfully saved");
       }
     }
   );
 });
 
-// UPDATE ALBUM BY ID
-app.put("/albums/:id", (req, res) => {
-  const idAlbum = req.params.id;
-  const newAlbum = req.body;
+// UPDATE PROJECT BY ID
+app.put("/projects/:id", (req, res) => {
+  const idProject = req.params.id;
+  const newProject = req.body;
 
   connection.query(
-    "UPDATE albums SET ? WHERE id = ?",
-    [newAlbum, idAlbum],
+    "UPDATE project SET ? WHERE id = ?",
+    [newProject, idProject],
     (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error updating an album");
+        res.status(500).send("Error updating a project");
       } else {
-        res.status(200).send("Album updated successfully 🎉");
+        res.status(200).send("Project updated successfully 🎉");
       }
     }
   );
 });
 
-// DELETE ALBUM BY ID (not working)
+// UPDATE TECHNO BY ID
+app.put("/technos/:id", (req, res) => {
+  const id_techno = req.params.id;
+  const newTechno = req.body;
+
+  connection.query(
+    "UPDATE techno SET ? WHERE id = ?",
+    [newTechno, id_techno],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error updating a techno");
+      } else {
+        res.status(200).send("Techno updated successfully 🎉");
+      }
+    }
+  );
+});
+
+/* // DELETE ALBUM BY ID (not working)
 app.delete("/albums/:id", (req, res) => {
   const idAlbum = req.params.id;
 
@@ -127,7 +152,7 @@ app.delete("/albums/:id", (req, res) => {
       }
     }
   );
-});
+}); */
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
